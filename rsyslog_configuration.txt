@@ -1,0 +1,52 @@
+# Folder and permission
+#==========#==========#===
+mkdir /var/log/network-logs
+mkdir /var/log/network-logs/logs-archive
+chown syslog:adm /var/log/network-logs
+chown syslog:adm /var/log/network-logs/logs-archive
+
+# Rsyslog config
+#=====#=====#====
+nano /etc/rsyslog.d/network-logs.conf
+
+#################
+#### MODULES ####
+#################
+
+# provides UDP syslog reception
+module(load="imudp")
+input(type="imudp" port="514")
+
+# provides TCP syslog reception
+module(load="imtcp")
+input(type="imtcp" port="5140")
+
+#Custom template to generate the log filename dynamically based on the client's IP address or Hostname.
+$template RemoteInputLogs, "/var/log/network-logs/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* ?RemoteInputLogs
+
+# Log Rotation
+#=======#=====#====
+nano /etc/logrotate.d/network-logs
+
+/var/log/network-logs/*.log
+{
+        size 100M
+        copytruncate
+        create
+        compress
+        olddir /var/log/network-logs/logs-archive
+        rotate 4
+        postrotate
+                /usr/lib/rsyslog/rsyslog-rotate
+        endscript
+}
+
+# Restart service
+#=======#========#==
+systemctl restart rsyslog
+
+# Show service status
+#=======#========#==
+systemctl status rsyslog
+

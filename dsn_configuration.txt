@@ -1,0 +1,78 @@
+# Show ip
+#=======#==
+ip a
+
+# Set hostname
+#=========#====
+nano /etc/hostname
+nano /etc/hosts
+
+# Install Required package
+#========#==========#=====
+apt install -y bind9*
+
+# Change directory
+#=============#====
+cd /etc/bind/
+
+# Setting up bind9
+#=======#======#===
+nano named.conf.options
+
+forwarders { 
+	8.8.8.8;
+	1.1.1.1;
+	};
+	
+listen-on { any; };
+allow-query { any; };
+allow-query-cache { any; };
+
+# Configure zone
+#=============#==
+nano named.conf.local
+
+zone "ripon.com" IN {
+type master;
+file "/etc/bind/forward.zone";
+};
+
+zone "100.168.192.in-addr.arpa" IN {
+type master;
+file "/etc/bind/reverse.zone";
+allow-query { any; };
+};
+
+# Forward zone configuration
+#===========#============#====
+cp db.local forward.zone
+nano forward.zone
+
+# Reverse zone configuration
+#=============#==========#====
+cp forward.zone reverse.zone
+nano reverse.zone
+
+# Check zones
+#==========#==
+named-checkzone forward.zone /etc/bind/forward.zone
+named-checkzone reverse.zone /etc/bind/reverse.zone
+
+# Set permission
+#============#===
+chown bind:bind /etc/bind/
+
+# Restart the services
+#====#===========#======
+systemctl restart bind9
+
+# Show services status
+#====#===========#=====
+systemctl status bind9
+
+# Start services at boot
+#====#===========#=======
+systemctl enable bind9
+
+
+

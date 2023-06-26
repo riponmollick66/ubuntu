@@ -1,0 +1,86 @@
+# System update
+#=====#=======#==
+apt update -y
+
+# Install required packages
+#==========#============#====	
+apt install -y apache2 mariadb-server php
+
+# Install php modules
+#========#=========#===
+apt install -y libapache2-mod-php7.4
+apt install -y php7.4-gd php7.4-mysql php7.4-curl php7.4-mbstring php7.4-intl
+apt install -y php7.4-gmp php7.4-bcmath php-imagick php7.4-xml php7.4-zip
+
+# Setting up mysql
+#=======#======#====
+mysql_secure_installation
+
+# Create databaase
+#=======#======#====
+mysql
+create database nextcloud_db;
+create user 'ripon'@'localhost' identified by 'admin';
+grant all on nextcloud_db.* to 'ripon'@'localhost'
+flush privileges;
+exit
+
+# Configure php
+#=====#======#===
+nano /etc/php/7.4/apache2/php.ini
+nano /etc/php/7.4/cli/php.ini
+
+# Download and extract nextcloud
+#===========#=================#===
+wget https://download.nextcloud.com/server/releases/latest-20.zip
+apt install -y unzip
+unzip latest-20.zip
+
+# Copy and change folder permission
+#=======#==========#=========#======
+cp -r nextcloud /var/www/
+chown -R www-data:www-data /var/www/nextcloud/
+
+# SSL certificate
+#======#=======#====
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nextcloud.key -out /etc/ssl/certs/nextcloud.crt
+
+# Apache configuration
+#=====#============#=====
+nano /etc/apache2/sites-available/nextcloud.conf
+
+<VirtualHost *:80>
+    ServerName 172.20.21.23
+    Redirect / https://172.20.21.23/
+</VirtualHost>
+
+
+<VirtualHost *:443>
+   ServerName 172.20.21.23
+   DocumentRoot /var/www/nextcloud
+
+   SSLEngine on
+   SSLCertificateFile /etc/ssl/certs/nextcloud.crt
+   SSLCertificateKeyFile /etc/ssl/private/nextcloud.key
+</VirtualHost>
+
+
+# Enable SSL module
+#=========#======#===
+a2enmod ssl
+
+# Disable default config
+#==========#=========#===
+a2dissite 000-default.conf
+
+# Enable new config
+#======#========#====
+a2ensite nextcloud.conf
+
+# Restart apache services
+====#===========#=======
+systemctl restart apache2
+
+# Show apache status
+=====================
+systemctl status apache2

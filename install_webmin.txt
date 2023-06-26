@@ -1,0 +1,19 @@
+# System update
+#=====#=======#==
+apt update -y
+
+# Download script
+#============#====
+https://webmin.com/download/
+
+# Install Webmin
+#=======#=====#===
+apt-get install webmin -y
+
+# Start services at boot
+#========#=======#=======
+systemctl enable webmin
+
+# Show services status
+#==========#======#====
+systemctl status webmin

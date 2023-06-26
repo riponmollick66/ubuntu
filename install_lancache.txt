@@ -1,0 +1,37 @@
+# System update
+#=======#=====#==
+apt update -y
+
+# Install Required packages
+#==========#============#====
+apt install -y docker.io
+apt install -y docker-compose
+
+# Start services at boot
+#==========#=========#====
+systemctl enable docker
+systemctl enable containerd
+
+# Install git clone
+#=========#=======#==
+apt install -y git
+
+# Download lancache & change directory
+#==============#========#============#===
+git clone https://github.com/lancachenet/docker-compose lancache
+cd lancache
+
+# Configure both file
+#==========#=======#===
+nano .env
+nano docker-compose.yml
+
+# Pull images
+#===#======#==
+sudo docker-compose up -d
+
+# Verify Installation
+#========#========#===
+docker stats
+
+Note: Use lancache server ip as a dns server.

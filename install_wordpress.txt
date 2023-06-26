@@ -1,0 +1,48 @@
+# System update
+#=====#=======#==
+apt update -y
+
+# Install required packages
+#==========#============#====
+apt install -y apache2 mariadb-server php php-mysql
+
+# Setting up mysql
+#=======#======#====
+mysql_secure_installation
+
+# Create databaase
+#=======#======#====
+mysql
+create database wordpress_db;
+create user 'ripon'@'localhost' identified by 'admin';
+grant all on wordpress_db.* to 'ripon'@'localhost'
+flush privileges;
+exit
+
+# Configure php
+#=====#======#===
+nano /etc/php/7.4/apache2/php.ini
+nano /etc/php/7.4/cli/php.ini
+
+# Download & extract wordpress
+#===========#===============#==
+wget https://wordpress.org/latest.zip
+apt install unzip -y
+unzip latest.zip
+
+# Copy and change folder permission
+#=======#==========#=========#======
+cp -r wordpress /var/www
+chown -R www-data:www-data /var/www/wordpress/
+
+# Apache configuration
+#=====#==========#====
+nano /etc/apache2/sites-available/000-default.conf
+
+# Restart apache services
+====#===========#=======
+systemctl restart apache2
+
+# Show apache status
+=====================
+systemctl status apache2

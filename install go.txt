@@ -1,0 +1,37 @@
+# Download go
+#==========#==
+wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
+
+# Remove old package
+#======#=========#====	
+rm -rf /usr/local/go
+
+Extract the file
+#======#=======#===
+tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
+
+# Add variables
+#======#=====#===
+nano /root/.bashrc
+
+# go variables
+export GOPATH=/root/go-workspace
+export GOROOT=/usr/local/go
+PATH=$PATH:$GOROOT/bin/:$GOPATH/bin
+
+# Update bashrc
+#=======#=====#==
+source /root/.bashrc
+
+# Install Required Package
+#=========#===========#====
+apt install -y make
+
+# Optional
+#========#===
+GO111MODULE=on go mod vendor
+
+# Verify Installation
+#=========#=========#==
+go version
+

@@ -1,0 +1,32 @@
+# Update system
+#======#======#====
+apt update -y	
+
+# Add transmission PPA Repository
+#======#=======#=======#======#=====
+sudo add-apt-repository ppa:transmissionbt/ppa	
+
+# Install transmission
+#======#======#=========
+apt update -y
+apt install -y transmission-cli transmission-common transmission-daemon	
+
+# Stop the service
+#========#======#===
+systemctl stop transmission-daemon
+
+# Edit configuration
+#========#======#====
+nano /etc/transmission-daemon/settings.json
+
+# Start services at boot
+#==========#=========#====
+/bin/systemctl enable transmission-daemon
+
+# Restart the service
+#=======#=======#=====
+systemctl restart transmission-daemon
+
+# Show services status
+#==========#=========#====
+systemctl status transmission-daemon

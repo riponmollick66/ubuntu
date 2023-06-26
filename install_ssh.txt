@@ -1,0 +1,27 @@
+# System update
+#===========#====
+apt update -y
+
+# Remove old packages
+#=========#========#====
+apt-get --purge remove openssh-server openssh-client
+
+# Install services
+#=======#======#===
+apt install -y openssh-server openssh-client
+
+# Config SSH
+#========#====
+nano /etc/ssh/sshd_config
+
+# Start service at boot
+#==========#=========#====
+systemctl enable ssh
+
+# Restart the service
+#=======#=======#=====
+systemctl restart ssh
+
+# Show services status
+#==========#=========#====
+systemctl status ssh
