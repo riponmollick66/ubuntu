@@ -33,7 +33,7 @@ systemctl restart prometheus
 #==========#=========#====
 systemctl enable prometheus
 
-# Start grafana at boot
+# Start prometheus at boot
 #==========#=========#========
 systemctl status prometheus
 
