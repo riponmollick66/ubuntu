@@ -1,0 +1,35 @@
+# Let’s Encrypt
+#=====#======#======
+apt-get install python3-certbot-nginx
+sudo certbot --nginx -d yourdomain.com
+
+# Self-Signed SSL Certificate
+#=============#=======#=======
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/torrent.key -out /etc/ssl/torrent.crt
+
+# Nginx config
+#==========#====
+server {
+    listen 80;
+    server_name experiment.av.com;
+    return 301 https://torrent.av.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name torrent.av.com;
+    ssl_certificate /etc/ssl/torrent.crt;
+    ssl_certificate_key /etc/ssl/torrent.key;
+    location / {
+	proxy_set_header Host $http_host;
+	proxy_pass http://192.168.100.249:9091;
+    }
+}
+
+# Remove nginx default-config
+#===========#===========#=======
+rm -rf /etc/nginx/sites-enabled/default
+
+# Enable config
+#==========#====
+sudo ln -s /etc/nginx/sites-available/torrent.conf /etc/nginx/sites-enabled/

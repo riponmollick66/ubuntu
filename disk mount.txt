@@ -1,0 +1,44 @@
+# Pertition Create
+#=======#=======#===
+lsblk -f
+fdisk /dev/sdb
+
+# Make file-system
+#=======#=======#===
+mkfs.ext4 /dev/sdb1
+
+# Make directory & mount
+#===========#======#=====
+mkdir /HardDisk
+mount /dev/sdb1 /HardDisk
+
+# Make mount permanently
+#===========#======#======
+/dev/sdb1       /HardDisk       ext4    defaults        1       2
+
+# Proxmox LXC
+#=====#====#=====
+mp0: /HardDisk/MyData,mp=/mnt/TorrentServer
+
+# NFS (Client)
+#======#=====
+mkdir /HardDisk
+mount -t nfs 192.168.100.243:/share /HardDisk
+
+# SMB Mount
+#====#=====#==
+nano /etc/fstab
+mount -t cifs -o username=ripon99,password=1100R //192.168.100.247/HardDisk /TorrentServer
+
+# NFS (Server)
+#====#======#====
+rpm -q nfs-utils
+yum install nfs-utils
+mkdir /share
+chmod 777 /share
+vi /etc/exports
+/share *(rw)
+firewall-cmd --permanent --add-service=nfs-utils
+firewall-cmd --reload
+firewall-cmd --permanent --list-all
+exports -rv
