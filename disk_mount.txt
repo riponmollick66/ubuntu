@@ -9,11 +9,11 @@ mkfs.ext4 /dev/sdb1
 
 # Make directory & mount
 #===========#======#=====
-mkdir /Harddisk
-mkdir /Harddisk/disk1
-chmod 777 /Harddisk/
-chmod 777 /Harddisk/disk1/
-mount /dev/sdb1 /Harddisk/disk1/
+mkdir /HardDisk
+mkdir /HardDisk/disk1
+chmod 777 /HardDisk/
+chmod 777 /HardDisk/disk1/
+mount /dev/sdb1 /HardDisk/disk1/
 
 # Make mount permanently
 #===========#======#======
