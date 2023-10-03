@@ -21,7 +21,7 @@ mount /dev/sdb1 /Harddisk/disk1/
 
 # Proxmox LXC
 #=====#====#=====
-mp0: /HardDisk/MyData,mp=/mnt/TorrentServer
+mp0: /HardDisk/disk1,mp=/harddisk
 
 
 LVM Create
