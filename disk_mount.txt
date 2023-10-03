@@ -9,12 +9,15 @@ mkfs.ext4 /dev/sdb1
 
 # Make directory & mount
 #===========#======#=====
-mkdir /HardDisk
-mount /dev/sdb1 /HardDisk
+mkdir /Harddisk
+mkdir /Harddisk/disk1
+chmod 777 /Harddisk/
+chmod 777 /Harddisk/disk1/
+mount /dev/sdb1 /Harddisk/disk1/
 
 # Make mount permanently
 #===========#======#======
-/dev/sdb1       /HardDisk       ext4    defaults        1       2
+/dev/sdb1       /HardDisk/disk1       ext4    defaults        1       2
 
 # Proxmox LXC
 #=====#====#=====
