@@ -23,9 +23,9 @@ mp0: /HardDisk/MyData,mp=/mnt/TorrentServer
 
 LVM Create
 ==========
-pvcreate /dev/nvme0n1p1 /dev/nvme1n1p1
-vgcreate lancache /dev/nvme0n1p1 /dev/nvme1n1p1
-lvcreate -L 3500G -n /dev/lancache/disk
+pvcreate lancache /dev/sdb1 /dev/sdc1
+vgcreate lancache /dev/sdb1 /dev/sdc1
+lvcreate -L 1750G -n /dev/lancache/disk
 mkfs.ext4 /dev/lancache/disk
 
 Resize
