@@ -26,10 +26,11 @@ mp0: /HardDisk/disk1,mp=/harddisk
 
 LVM Create
 ==========
-pvcreate lancache /dev/sdb1 /dev/sdc1
+pvcreate /dev/sdb1 /dev/sdc1
 vgcreate lancache /dev/sdb1 /dev/sdc1
 lvcreate -L 1750G -n /dev/lancache/disk
 mkfs.ext4 /dev/lancache/disk
+mount /dev/lancache/disk /HardDisk/
 
 Resize
 =======
