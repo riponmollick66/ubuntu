@@ -17,20 +17,32 @@ mount /dev/sdb1 /HardDisk/disk1/
 
 # Make mount permanently
 #===========#======#======
+nano /etc/fstab
 /dev/sdb1       /HardDisk/disk1       ext4    defaults        1       2
 
 # Proxmox LXC
 #=====#====#=====
+nano /etc/pve/lxc/110.conf
 mp0: /HardDisk/disk1,mp=/harddisk
 
-
-LVM Create
-==========
+*************************************************************************************************************************
+================
+LVM Guide      
+================
+fdisk /dev/sdb
+fdisk /dev/sdc
 pvcreate /dev/sdb1 /dev/sdc1
 vgcreate lancache /dev/sdb1 /dev/sdc1
-lvcreate -L 1750G -n /dev/lancache/disk
+lvcreate -L 3600G -n /dev/lancache/disk
 mkfs.ext4 /dev/lancache/disk
+mkdir /HardDisk
 mount /dev/lancache/disk /HardDisk/
+
+# Make mount permanently
+nano /etc/fstab
+/dev/lancache/disk       /HardDisk/disk1       ext4    defaults        1       2
+
+*************************************************************************************************************************
 
 Resize
 =======
