@@ -10,20 +10,21 @@ mkfs.ext4 /dev/sdb1
 # Make directory & mount
 #===========#======#=====
 mkdir /HardDisk
-mkdir /HardDisk/disk1
-chmod 777 /HardDisk/
-chmod 777 /HardDisk/disk1/
-mount /dev/sdb1 /HardDisk/disk1/
+mkdir /HardDisk/lancache
+mount /dev/sdb1 /HardDisk/lancache/
+chmod 777 /HardDisk
+chmod 777 /HardDisk/lancache
+
 
 # Make mount permanently
 #===========#======#======
 nano /etc/fstab
-/dev/sdb1       /HardDisk/disk1       ext4    defaults        1       2
+/dev/sdb1       /HardDisk/lancache       ext4    defaults        1       2
 
 # Proxmox LXC
 #=====#====#=====
-nano /etc/pve/lxc/110.conf
-mp0: /HardDisk/disk1,mp=/harddisk
+nano /etc/pve/lxc/105.conf
+mp0: /HardDisk/lancache,mp=/harddisk
 
 *************************************************************************************************************************
 ================
