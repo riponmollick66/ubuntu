@@ -44,11 +44,13 @@ nano /etc/fstab
 /dev/lancache/disk       /HardDisk/disk1       ext4    defaults        1       2
 
 *************************************************************************************************************************
-
-Resize
-=======
-lvextend -L 100G -n /dev/lancache/disk
-resizefs /dev/lancache/disk
+Add a New HardDisk
+====================
+sudo fdisk /dev/sdd
+pvcreate /dev/sdd1
+vgextend lancache /dev/sdd1
+lvextend -l +100%FREE /dev/lancache/disk
+resize2fs /dev/lancache/disk
 
 # NFS (Client)
 #======#=====
