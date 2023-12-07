@@ -46,6 +46,8 @@ nano /etc/fstab
 *************************************************************************************************************************
 Add a New HardDisk
 ====================
+lvdisplay
+vgdisplay
 sudo fdisk /dev/sdd
 pvcreate /dev/sdd1
 vgextend lancache /dev/sdd1
