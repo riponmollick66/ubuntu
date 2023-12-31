@@ -34,7 +34,7 @@ fdisk /dev/sdb
 fdisk /dev/sdc
 pvcreate /dev/sdb1 /dev/sdc1
 vgcreate lancache /dev/sdb1 /dev/sdc1
-lvcreate -L 3600G -n /dev/lancache/disk
+lvcreate -l +100%FREE -n /dev/lancache/disk
 mkfs.ext4 /dev/lancache/disk
 mkdir /HardDisk
 mount /dev/lancache/disk /HardDisk/
