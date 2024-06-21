@@ -1,0 +1,29 @@
+# System update
+apt-get update -y	;
+
+# Required packages
+apt-get install git curl dbus-x11 gnome-keyring -y	;
+curl -sSL https://get.docker.com/ | CHANNEL=stable sh	;
+
+# Start services at boot
+systemctl enable docker containerd	;
+systemctl enable --now docker	;
+
+# Download & change directory
+cd /opt/	;
+git clone https://github.com/mailcow/mailcow-dockerized	;
+cd mailcow-dockerized	;
+./generate_config.sh	;
+
+# Pull images
+docker compose pull	&& docker compose up -d	;
+
+
+
+# forward-zone:
+#  name: "."
+#  forward-addr: 192.168.100.246
+#  forward-addr: 8.8.4.4
+
+# Mail Tester
+# https://www.mail-tester.com/
